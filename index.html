@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Domenic Garza — SPRAT Level III field reporting and engineering analysis portal." />
+  <meta name="robots" content="index,follow" />
+  <title>Domenic Garza | SPRAT Level III Field Reports</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Strategickhaos home">
+      <span class="brand-mark">SK</span>
+      <span>
+        <strong>Strategickhaos</strong>
+        <small>Industrial Field Intelligence</small>
+      </span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#reports">Reports</a>
+      <a href="#composer">Composer</a>
+      <a href="#seal">Seal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">SPRAT LEVEL III · FIELD REPORTING · TECHNICAL ANALYSIS</p>
+        <h1>Domenic Garza</h1>
+        <p class="lede">A lightweight field-report portal for observations, analysis, evidence receipts, and supervisor-ready handoff.</p>
+        <div class="actions">
+          <a class="button primary" href="#composer">Create a report</a>
+          <a class="button" href="#reports">View report index</a>
+        </div>
+      </div>
+      <aside class="status-card" aria-label="Current assignment status">
+        <div class="status-row"><span>Role</span><strong>Rope Access III</strong></div>
+        <div class="status-row"><span>Current assignment</span><strong>MISTRAS Group Inc. — Services</strong></div>
+        <div class="status-row"><span>Region</span><strong>Corpus Christi, Texas</strong></div>
+        <div class="status-row"><span>Portal state</span><strong class="ok">READY</strong></div>
+        <p class="micro">Personal field-report portal. Not an official MISTRAS Group website or system.</p>
+      </aside>
+    </section>
+
+    <section class="rail-grid" aria-label="Portal doctrine">
+      <article><span>01</span><h2>Observe</h2><p>Record the condition, location, context, and supporting evidence without embellishment.</p></article>
+      <article><span>02</span><h2>Analyze</h2><p>Separate verified facts, interpretation, risk, and recommended action.</p></article>
+      <article><span>03</span><h2>Seal</h2><p>Generate a local SHA-256 receipt before handoff so the submitted file can be verified later.</p></article>
+    </section>
+
+    <section id="reports" class="panel">
+      <div class="section-head">
+        <div><p class="eyebrow">REPORT LIBRARY</p><h2>Field report index</h2></div>
+        <span class="badge">SANITIZED PUBLIC INDEX</span>
+      </div>
+      <p>Only publish material cleared for external sharing. Restricted site information, customer data, personnel records, credentials, and proprietary inspection data should stay in an access-controlled company or Workspace folder.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Date</th><th>Type</th><th>Subject</th><th>Status</th></tr></thead>
+          <tbody id="reportRows"><tr><td colspan="5" class="muted">No public reports published yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="composer" class="panel">
+      <div class="section-head"><div><p class="eyebrow">LOCAL REPORT COMPOSER</p><h2>Build a supervisor-ready field note</h2></div><span class="badge">RUNS IN YOUR BROWSER</span></div>
+      <div class="form-grid">
+        <label>Report ID<input id="reportId" value="DG-L3-001" /></label>
+        <label>Date<input id="reportDate" type="date" /></label>
+        <label>Site / Area<input id="site" placeholder="Unit / area / access point" /></label>
+        <label>Classification<select id="classification"><option>Routine</option><option>Safety Observation</option><option>Technical Analysis</option><option>Quality / NCR Support</option><option>Rope Access Plan Note</option></select></label>
+        <label class="span2">Observed facts<textarea id="facts" rows="5" placeholder="What was directly observed? Keep facts separate from inference."></textarea></label>
+        <label class="span2">Analysis<textarea id="analysis" rows="5" placeholder="Technical interpretation, likely mechanism, constraints, assumptions."></textarea></label>
+        <label class="span2">Recommended action<textarea id="action" rows="4" placeholder="What should happen next, by whom, and why?"></textarea></label>
+      </div>
+      <div class="actions">
+        <button class="button primary" id="downloadMd">Download Markdown report</button>
+        <button class="button" id="copyReport">Copy report text</button>
+      </div>
+    </section>
+
+    <section id="seal" class="panel">
+      <div class="section-head"><div><p class="eyebrow">SAGCO RECEIPT</p><h2>Seal a report locally</h2></div><span class="badge">NO FILE UPLOAD</span></div>
+      <p>Select a completed report. The browser computes SHA-256 locally and generates a receipt. The file never leaves your device through this page.</p>
+      <div class="seal-box">
+        <input id="sealFile" type="file" />
+        <button class="button primary" id="sealBtn">Generate receipt</button>
+      </div>
+      <pre id="receiptOut">WAITING_FOR_FILE</pre>
+      <button class="button hidden" id="downloadReceipt">Download receipt JSON</button>
+    </section>
+
+    <section id="contact" class="panel contact">
+      <div><p class="eyebrow">CONTACT</p><h2>Professional handoff</h2><p>For recruiting, engineering correspondence, and approved field-report delivery.</p></div>
+      <div class="contact-card">
+        <strong>Domenic Garza</strong>
+        <span>SPRAT Level III</span>
+        <a href="mailto:domenic.garza@strategickhaos.io">domenic.garza@strategickhaos.io</a>
+        <a href="https://strategickhaos.io">strategickhaos.io</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Strategickhaos DAO LLC</span>
+    <span>Evidence before assertion · No confidential customer data on public pages</span>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>
