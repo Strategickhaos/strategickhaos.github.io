@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SAGCO Wi-Fi-to-Ethernet WAN Lab: explore a safe OPNsense WISP gateway, Wi-Fi bridge and G5AR cellular backup with a local-only FlameLang evidence report.">
+  <meta name="theme-color" content="#0a101c">
+  <title>SAGCO | Wi-Fi → Ethernet WAN Lab</title>
+  <style>
+    :root{color-scheme:dark;--bg:#070e18;--surface:#101b29;--surface2:#152338;--ink:#ecf6ff;--muted:#9db1c3;--line:#2b4056;--cyan:#6ce1e8;--lime:#b5f577;--orange:#ffc178;--red:#ff8795;--radius:20px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 60% -12%,#184463 0,transparent 45%),linear-gradient(160deg,#08111e,#070e18 60%);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+    button,select{font:inherit}a{color:var(--cyan)}a:hover{text-decoration-thickness:2px}button{cursor:pointer}
+    .wrap{max-width:1150px;padding:0 22px;margin:0 auto}.sitebar{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #2a4054;background:#09131edc;padding:17px max(22px,calc((100vw - 1106px)/2));position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+    .logo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:850;letter-spacing:.12em;text-decoration:none;color:var(--ink)}.glyph{display:grid;place-items:center;width:38px;height:38px;border:1px solid #6ce1e86e;border-radius:11px;background:#0d2935;color:var(--cyan);font-size:20px}.nav{display:flex;gap:20px;align-items:center;font-size:13px;color:var(--muted)}.nav a{text-decoration:none;color:inherit}
+    .hero{padding:62px 0 34px;display:grid;grid-template-columns:1.22fr .78fr;gap:30px;align-items:center}.kicker{font-size:12px;font-weight:800;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}.hero h1{font-size:clamp(2.7rem,6.5vw,5.6rem);line-height:1.03;letter-spacing:-.06em;margin:13px 0 20px}.accent{color:var(--lime)}.lead{color:#bad0df;font-size:1.12rem;max-width:680px}.tags{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}.tag{border:1px solid #3d5367;border-radius:100px;padding:6px 11px;font-size:11px;font-weight:800;letter-spacing:.06em;color:#c8dce8}.tag.green{border-color:#405a32;color:var(--lime)}.tag.orange{border-color:#87613d;color:var(--orange)}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid #416078;background:var(--surface2);color:var(--ink);border-radius:11px;padding:10px 16px;font-weight:780;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.primary{background:var(--cyan);border-color:var(--cyan);color:#05121a}.btn:hover,.mode:hover{filter:brightness(1.12)}
+    .hero-tile{background:linear-gradient(150deg,#17314a,#0b1a2b);border:1px solid #32526a;border-radius:24px;padding:25px;min-height:270px}.mini-label{font-weight:780;font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.formula{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:870;line-height:1.25;margin:21px 0}.formula b{color:var(--lime)}.tile-note{font-size:13px;color:#b6c9d7;border-top:1px solid #35506a;padding-top:18px}
+    .section{margin:30px 0}.section-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}.section h2{font-size:clamp(1.65rem,3.2vw,2.45rem);line-height:1.12;letter-spacing:-.035em;margin:0 0 6px}.sub{color:var(--muted);font-size:14px;margin:0}.card{background:linear-gradient(150deg,#101c2d,#101927);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(18px,3vw,28px)}
+    .modebar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 18px}.mode{background:#0d1927;border:1px solid #38516a;border-radius:13px;color:#c1d1de;padding:14px;text-align:left;min-height:92px}.mode strong{display:block;font-size:15px;color:var(--ink)}.mode span{display:block;font-size:12px;margin-top:4px}.mode[aria-pressed="true"]{border-color:var(--cyan);box-shadow:0 0 0 1px #65dee970 inset;background:#153042}.topology{display:grid;grid-template-columns:1fr 30px 1fr 30px 1fr 30px 1fr;align-items:center;gap:7px;margin:24px 0}.node{min-height:142px;border:1px solid #3a5c74;border-radius:15px;background:#0a1826;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:15px;gap:7px}.node .nodenum{font-family:ui-monospace,monospace;color:var(--cyan);font-size:11px}.node strong{font-size:15px;line-height:1.23}.node small{font-size:12px;color:var(--muted)}.arrow{text-align:center;color:var(--lime);font-size:23px}.statusline{border:1px solid #3d6146;background:#10281f;border-radius:13px;padding:13px 15px;color:#cde4cc;font-size:13px}.statusline strong{color:var(--lime)}.explain{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px}.info{padding:16px;border:1px solid #30495b;border-radius:14px;background:#0e1a28}.info h3{font-size:14px;margin:0 0 7px}.info p{color:var(--muted);font-size:13px;margin:0}.steps{padding-left:22px;margin:13px 0 0}.steps li{margin-bottom:12px;color:#d0e0ee}.steps li::marker{color:var(--cyan);font-weight:800}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.metric{background:#0b1824;border:1px solid #29495a;border-radius:14px;padding:17px}.metric .n{font-size:28px;color:var(--lime);font-weight:850}.metric p{color:var(--muted);font-size:13px;margin:6px 0 0}
+    .checks{display:grid;gap:9px}.check{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1px solid #284057;padding:12px 0}.check:last-child{border-bottom:0}.check label{font-size:14px;line-height:1.3}.check select{background:#0a1927;color:var(--ink);border:1px solid #3c5972;border-radius:8px;padding:8px 12px;min-width:112px}.result{margin-top:17px;border-top:1px solid var(--line);padding-top:16px;display:flex;gap:13px;align-items:center;justify-content:space-between}.verdict{font-family:ui-monospace,monospace;color:var(--orange);font-size:25px;font-weight:900}.verdict.ok{color:var(--lime)}.verdict.bad{color:var(--red)}.muted{color:var(--muted)}.little{font-size:12px}.code{width:100%;display:block;min-height:260px;background:#06121d;color:#cef1de;border:1px solid #355166;border-radius:12px;padding:15px;font:13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical;white-space:pre;overflow:auto}.flex-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.notice{border-left:3px solid var(--orange);padding:12px 16px;background:#2d241b;color:#f6dbc1;font-size:13px;border-radius:0 9px 9px 0}.references{font-size:13px;color:var(--muted);display:grid;gap:8px}.references a{text-decoration:underline}.footer{margin-top:45px;border-top:1px solid var(--line);color:var(--muted);padding:26px 0 45px;font-size:12px;display:flex;justify-content:space-between;gap:12px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:870px){.topology{grid-template-columns:1fr;gap:4px}.node{min-height:76px}.arrow{transform:rotate(90deg);font-size:18px}.hero{grid-template-columns:1fr}.hero-tile{min-height:0}.grid2{grid-template-columns:1fr}.topology .node{width:100%}}
+    @media(max-width:610px){.nav{gap:10px}.nav a:not(:last-child){display:none}.modebar{grid-template-columns:1fr}.mode{min-height:0}.grid3{grid-template-columns:1fr}.section-top{display:block}.check{gap:8px}.footer{flex-direction:column}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+<header class="sitebar">
+  <a class="logo" href="../../" aria-label="Strategickhaos home"><span class="glyph">✳</span><span>SAGCO / NETWORK LAB</span></a>
+  <nav class="nav" aria-label="Page navigation">
+    <a href="#topology">Topology</a><a href="#field-guide">Build guide</a><a href="#evidence">Evidence</a><a href="../../">Main site</a>
+  </nav>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="kicker">PROJECT NW-001 / ATHENA / REV001</div>
+      <h1>Turn <span class="accent">Wi-Fi</span> into an Ethernet WAN.</h1>
+      <p class="lead">The practical way: join an existing, authorized Wi-Fi network with a client router, hand its connection to an Ethernet port, and let OPNsense provide firewalling and local services for Athena.</p>
+      <div class="tags"><span class="tag green">OFFLINE INTERACTIVE LAB</span><span class="tag">OPNsense / OpenWrt</span><span class="tag orange">G5AR BACKUP MODE</span></div>
+      <div class="hero-actions"><a class="btn primary" href="#topology">Explore three architectures</a><a class="btn" href="#evidence">Generate FlameLang report</a></div>
+    </div>
+    <aside class="hero-tile">
+      <div class="mini-label">The network question</div>
+      <div class="formula">Wi-Fi <span aria-hidden="true">→</span> <b>client adapter</b> <span aria-hidden="true">→</span> Ethernet <span aria-hidden="true">→</span> OPNsense</div>
+      <p class="tile-note">The router isn't fooled: the adapter provides a real Ethernet link while moving the upstream packets over Wi-Fi. Typically this is <strong>routing / NAT</strong>, not transparent Layer-2 bridging.</p>
+    </aside>
+  </section>
+  <section class="section" id="topology">
+    <div class="section-top"><div><div class="kicker">01 / DESIGN THE PATH</div><h2>Network architecture explorer</h2><p class="sub">Select a topology. Everything below is explanatory or manually entered—no live router connection.</p></div><span class="tag orange" id="modeBadge">RECOMMENDED</span></div>
+    <div class="card">
+      <div class="modebar" role="group" aria-label="Choose network architecture">
+        <button class="mode" data-mode="wisp" aria-pressed="true"><strong>01 · Routed Wi-Fi client</strong><span>Recommended practical setup</span></button>
+        <button class="mode" data-mode="bridge" aria-pressed="false"><strong>02 · True wireless bridge</strong><span>Requires compatible 4-address/WDS gear</span></button>
+        <button class="mode" data-mode="cellular" aria-pressed="false"><strong>03 · T-Mobile 5G backup</strong><span>Separate cellular WAN pathway</span></button>
+      </div>
+      <div class="topology" aria-label="Selected network diagram">
+        <div class="node"><span class="nodenum">SOURCE 01</span><strong id="n1">Home Wi-Fi</strong><small id="s1">Authorized upstream network</small></div><div class="arrow" aria-hidden="true">→</div>
+        <div class="node"><span class="nodenum">ADAPTER 02</span><strong id="n2">WISP / OpenWrt client</strong><small id="s2">Wi-Fi station → Ethernet LAN</small></div><div class="arrow" aria-hidden="true">→</div>
+        <div class="node"><span class="nodenum">FIREWALL 03</span><strong id="n3">OPNsense WAN</strong><small id="s3">DHCP WAN / separate LAN subnet</small></div><div class="arrow" aria-hidden="true">→</div>
+        <div class="node"><span class="nodenum">HOST 04</span><strong id="n4">ATHENA / SAGCO</strong><small id="s4">Local compute & services</small></div>
+      </div>
+      <div class="statusline" role="status"><strong id="modeName">Routed client / WISP</strong> · <span id="modeSummary">Most compatible path. Expect NAT between the upstream Wi-Fi and your OPNsense network.</span></div>
+      <div class="explain">
+        <div class="info"><h3>What it actually achieves</h3><p id="achieves">OPNsense receives Ethernet WAN connectivity sourced from Wi-Fi. Devices can reach upstream internet without requiring OPNsense itself to drive a Wi-Fi radio.</p></div>
+        <div class="info"><h3>Engineering limitation</h3><p id="constraint">Often creates double NAT; upstream and local LAN must not overlap. It does not grant ownership of or bypass restrictions on the upstream network.</p></div>
+      </div>
+    </div>
+  </section>
+  <section id="field-guide" class="section">
+    <div class="section-top"><div><div class="kicker">02 / BUILD WITHOUT BREAKING THE LAN</div><h2>Installation runbook</h2><p class="sub">Conservative steps for a lab using networks and equipment you control or are authorized to use.</p></div></div>
+    <div class="grid2">
+      <article class="card"><h3 id="guideTitle">WISP → OPNsense WAN</h3><ol class="steps" id="guideSteps"><li>Keep the current internet connection intact.</li><li>Join the authorized Wi-Fi network with a WISP/client router.</li><li>Connect its Ethernet LAN port to the OPNsense WAN port.</li><li>Set OPNsense WAN to DHCP; use a different subnet on LAN.</li><li>Verify WAN IP, DNS, HTTPS, and reconnect behavior.</li></ol></article>
+      <aside class="card"><div class="mini-label">Evidence rules</div><div class="grid3" style="margin:15px 0"><div class="metric"><div class="n">L1</div><p>Ethernet link</p></div><div class="metric"><div class="n">L3</div><p>WAN + routes</p></div><div class="metric"><div class="n">L7</div><p>DNS / HTTPS</p></div></div><div class="notice">Do not connect WAN and LAN to the same subnet. Do not turn off the existing connection before you can access the device locally. Never claim a screenshot or manual checkbox is a live network test.</div></aside>
+    </div>
+  </section>
+  <section id="evidence" class="section">
+    <div class="section-top"><div><div class="kicker">03 / SAGCO HELIX EVIDENCE</div><h2>Manual readiness board</h2><p class="sub">Mark your actual observed results. A default UNKNOWN is not a failure—and never becomes an invented PASS.</p></div><span class="tag">LOCAL-ONLY / NO UPLOAD</span></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="checks" id="checks">
+          <div class="check"><label for="c0" id="l0">Wi-Fi association / upstream registration</label><select id="c0" data-check><option value="UNKNOWN">UNKNOWN</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option></select></div>
+          <div class="check"><label for="c1">Ethernet carrier / link</label><select id="c1" data-check><option value="UNKNOWN">UNKNOWN</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option></select></div>
+          <div class="check"><label for="c2">WAN address + default route</label><select id="c2" data-check><option value="UNKNOWN">UNKNOWN</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option></select></div>
+          <div class="check"><label for="c3">DNS resolves a public name</label><select id="c3" data-check><option value="UNKNOWN">UNKNOWN</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option></select></div>
+          <div class="check"><label for="c4">HTTPS request succeeds</label><select id="c4" data-check><option value="UNKNOWN">UNKNOWN</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option></select></div>
+        </div>
+        <div class="result"><div><div class="mini-label">Derived verdict</div><div class="verdict" id="verdict" aria-live="polite">OPEN</div></div><span class="muted little" id="coverage">0 / 5 observed</span></div>
+        <button class="btn" id="resetBtn" type="button">Reset observations</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">FlameLang-compatible report</h3>
+        <p class="sub">Uses the existing FlameLang print/exit subset. This output describes manual entries; it does not remotely execute commands on your router or prove the OS/kernel is running.</p>
+        <label for="flameOut" class="sr-only">Generated FlameLang source</label>
+        <textarea class="code" id="flameOut" readonly spellcheck="false" aria-label="Generated FlameLang source"></textarea>
+        <div class="flex-actions"><button class="btn primary" id="downloadBtn">Download .flame</button><button class="btn" id="copyBtn">Copy source</button></div>
+        <p class="little muted" id="message" aria-live="polite">No customer data, Wi-Fi passwords, account IDs, IMEI or SIM identifiers are collected.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="card">
+      <div class="kicker">04 / SOURCE NOTES</div>
+      <h2>What's supported—and what's not</h2>
+      <div class="grid2">
+        <div><h3>Reliable foundation</h3><p class="muted">OpenWrt supports a routed Wi-Fi station/client network with a separate LAN and NAT. OPNsense supports wired WAN/LAN interfaces and can obtain its WAN address via DHCP. These let an upstream Wi-Fi link be delivered over Ethernet.</p></div>
+        <div><h3>Do not conflate the devices</h3><p class="muted">An Arcadyan G5AR is a carrier-managed 5G gateway, not an arbitrary wireless client bridge. T-Mobile currently documents automatic Home Internet Backup connection with G4AR; other gateways can use manual activation via T-Life.</p></div>
+      </div>
+      <div class="references"><strong>Official technical references</strong>
+        <a href="https://openwrt.org/docs/guide-user/network/routedclient" target="_blank" rel="noopener noreferrer">OpenWrt: Routed Client</a>
+        <a href="https://openwrt.org/docs/guide-user/network/wifi/connect_client_wifi" target="_blank" rel="noopener noreferrer">OpenWrt: Connect to client Wi-Fi network</a>
+        <a href="https://docs.opnsense.org/manual/wireless.html" target="_blank" rel="noopener noreferrer">OPNsense: Wireless limitations</a>
+        <a href="https://www.t-mobile.com/support/home-internet/t-mobile-gateway" target="_blank" rel="noopener noreferrer">T-Mobile: Gateway and Backup Plan setup</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer"><span>© 2026 SAGCO / Strategickhaos · NW-001 · educational network design lab</span><span>No analytics · No remote access · No router changes · No credentials</span></footer>
+</main>
+<script>
+(function(){
+  "use strict";
+  var architectures={
+    wisp:{badge:"RECOMMENDED",title:"Routed client / WISP",nodes:["Home Wi-Fi","WISP / OpenWrt client","OPNsense WAN","ATHENA / SAGCO"],subs:["Authorized upstream network","Wi-Fi station → Ethernet LAN","DHCP WAN / separate LAN subnet","Local compute & services"],summary:"Most compatible path. Expect NAT between the upstream Wi-Fi and your OPNsense network.",achieves:"OPNsense receives Ethernet WAN connectivity sourced from Wi-Fi. No wireless-driver support required on OPNsense itself.",constraint:"Often creates double NAT; upstream and LAN subnets must differ. Existing upstream access rules still apply.",label:"Wi-Fi association / upstream registration",guide:["Preserve the current network and keep local management access.","Join an authorized Wi-Fi SSID using a WISP-capable travel router or OpenWrt client.","Connect the client router's Ethernet LAN port to OPNsense's designated WAN port.","Set the OPNsense WAN to DHCP; choose a LAN subnet different from upstream (for example 192.168.50.0/24).","Check Ethernet link, WAN IP, default route, DNS resolution and HTTPS. Test recovery after disconnecting the Wi-Fi source."]},
+    bridge:{badge:"ADVANCED",title:"True Layer-2 wireless bridge",nodes:["Home Wi-Fi / WDS AP","Compatible WDS station","Ethernet bridge port","ATHENA / SAGCO"],subs:["Four-address/mesh-capable AP","Matching radio & driver mode","Same L2 segment, if supported","Client behind bridged link"],summary:"Possible only with compatible bridging technology; ordinary Wi-Fi client mode is not a transparent Ethernet bridge.",achieves:"A true 802.11 WDS/four-address link can carry downstream Ethernet MAC addresses when both ends support it.",constraint:"Ordinary three-address station mode cannot generally bridge arbitrary downstream MAC addresses. Driver, firmware, and AP interoperability limit true bridging.",label:"WDS association / link",guide:["Check both ends for compatible WDS/four-address or 802.11s bridge support.","Do not enable bridge mode merely because a consumer router says 'repeater'.","Keep a management cable connected while testing to avoid lockout.","Confirm that downstream devices receive the intended upstream subnet and that frames traverse without extra NAT.","If the access point cannot support WDS, use the safer routed WISP option instead."]},
+    cellular:{badge:"BACKUP / MANUAL",title:"Cellular backup path (G5AR)",nodes:["T-Mobile 5G network","Arcadyan G5AR","OPNsense WAN2","ATHENA / SAGCO"],subs:["Carrier service & SIM active","Dedicated managed gateway","Second WAN NIC or dual-WAN router","Local apps and services"],summary:"Use G5AR Ethernet as an alternate cellular WAN, not as a pretend Wi-Fi client for a different ISP.",achieves:"The G5AR can provide cellular internet to a downstream router or OPNsense WAN interface while service is activated.",constraint:"Requires a separate WAN connection for multi-WAN. T-Mobile documents manual activation on gateways other than G4AR; activating backup can consume limited hours.",label:"Cellular registration / backup active",guide:["Verify the Home Internet Backup plan, authorized location and line in T-Life.","Keep the G5AR separate from the primary Wi-Fi-to-Ethernet adapter.","If OPNsense supports multiple WANs, connect G5AR Ethernet LAN to WAN2; otherwise use a tested dual-WAN router.","Manually activate G5AR backup in T-Life only when a test is intended; monitor its monthly hours.","Measure failover/failback without assuming the G5AR itself supports automatic upstream Wi-Fi bridging. Pause Backup Wi-Fi afterward."]}
+  };
+  var active="wisp",checks=[].slice.call(document.querySelectorAll("[data-check]"));
+  function getVerdict(){var vals=checks.map(function(x){return x.value;});return vals.indexOf("FAIL")>=0?"FAIL":(vals.every(function(x){return x==="PASS";})?"PASS":"OPEN");}
+  function buildSource(){
+    var name=architectures[active].title;
+    var lines=["SAGCO NETWORK LAB NW-001","SOURCE MANUAL OBSERVATIONS ONLY","TOPOLOGY "+name.toUpperCase(),"NOT LIVE TELEMETRY"];
+    checks.forEach(function(el,i){lines.push("CHECK "+(i+1)+" "+el.value);});
+    lines.push("VERDICT "+getVerdict());
+    lines.push("NO ROUTER OR CARRIER ACTION PERFORMED");
+    return "flame networkLab {\n"+lines.map(function(v){return "  print "+JSON.stringify(v)+";";}).join("\n")+"\n  exit 0;\n}\n";
+  }
+  function render(){
+    var cfg=architectures[active];document.getElementById("modeBadge").textContent=cfg.badge;
+    document.getElementById("modeName").textContent=cfg.title;
+    document.getElementById("modeSummary").textContent=cfg.summary;
+    document.getElementById("achieves").textContent=cfg.achieves;
+    document.getElementById("constraint").textContent=cfg.constraint;
+    document.getElementById("l0").textContent=cfg.label;
+    document.getElementById("guideTitle").textContent=cfg.title;
+    for(var i=0;i<4;i++){document.getElementById("n"+(i+1)).textContent=cfg.nodes[i];document.getElementById("s"+(i+1)).textContent=cfg.subs[i];}
+    var ol=document.getElementById("guideSteps");ol.textContent="";cfg.guide.forEach(function(step){var li=document.createElement("li");li.textContent=step;ol.appendChild(li);});
+    document.querySelectorAll("[data-mode]").forEach(function(btn){btn.setAttribute("aria-pressed",String(btn.dataset.mode===active));});
+    var v=getVerdict(),observed=checks.filter(function(x){return x.value!=="UNKNOWN";}).length;
+    var vEl=document.getElementById("verdict");vEl.textContent=v;vEl.className="verdict "+(v==="PASS"?"ok":v==="FAIL"?"bad":"");
+    document.getElementById("coverage").textContent=observed+" / 5 observed";
+    document.getElementById("flameOut").value=buildSource();
+  }
+  document.querySelectorAll("[data-mode]").forEach(function(btn){btn.addEventListener("click",function(){active=btn.dataset.mode;checks.forEach(function(c){c.value="UNKNOWN";});render();});});
+  checks.forEach(function(el){el.addEventListener("change",render);});
+  document.getElementById("resetBtn").addEventListener("click",function(){checks.forEach(function(c){c.value="UNKNOWN";});render();});
+  document.getElementById("downloadBtn").addEventListener("click",function(){
+    var blob=new Blob([buildSource()],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download="sagco-network-"+active+"-NW001.flame";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    document.getElementById("message").textContent="FlameLang report created locally. It records MANUAL observations only.";
+  });
+  document.getElementById("copyBtn").addEventListener("click",async function(){
+    var source=buildSource();try{if(!navigator.clipboard||!navigator.clipboard.writeText)throw Error("Clipboard unavailable");await navigator.clipboard.writeText(source);document.getElementById("message").textContent="Copied the manual FlameLang report.";}
+    catch(e){var ta=document.getElementById("flameOut");ta.focus();ta.select();document.getElementById("message").textContent="Clipboard unavailable; source is selected so you can copy it."; }
+  });
+  render();
+})();
+</script>
+</body>
+</html>
