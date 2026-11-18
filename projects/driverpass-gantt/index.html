@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1018">
+<meta name="description" content="SAGCO source-aligned, interactive DriverPass project schedule, based on the CS 255 interview transcript.">
+<title>DriverPass Gantt | SAGCO Project Laboratory</title>
+<style>
+:root{color-scheme:dark;--bg:#0a1018;--panel:#121d29;--panel2:#162433;--line:#304054;--text:#f2f6fb;--muted:#a9bed1;--gold:#e3c474;--blue:#82baff;--teal:#6fdfd0;--purple:#c3a4ff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 78% -10%,#193653 0,transparent 43%),radial-gradient(ellipse at -15% 65%,#142435 0,transparent 42%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+a{color:inherit}a:hover{text-decoration-color:var(--gold)}
+.skip{position:absolute;left:-999px;top:8px;background:white;color:black;padding:12px;z-index:100}.skip:focus{left:8px}
+.site-head{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px clamp(20px,4vw,64px);border-bottom:1px solid var(--line);background:#0b121cdd}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none}.mark{display:grid;place-items:center;width:45px;height:45px;border:1px solid var(--gold);border-radius:12px;color:var(--gold);font-weight:900;letter-spacing:.08em}.brand strong,.brand small{display:block}.brand small{font-size:.69rem;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}.head-links{display:flex;flex-wrap:wrap;gap:22px}.head-links a{text-decoration:none;color:var(--muted);font-size:.9rem}.head-links a:hover{color:var(--text)}
+.wrap{max-width:1500px;margin:auto;padding:0 clamp(18px,4vw,56px) 68px}
+.hero{display:grid;grid-template-columns:1.6fr 0.75fr;gap:42px;align-items:end;padding:68px 0 38px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.17em;color:var(--gold);text-transform:uppercase;margin:0 0 12px}.hero h1{font-size:clamp(2.6rem,6.2vw,5.4rem);line-height:1.06;letter-spacing:-.055em;margin:0 0 17px}.hero h1 em{font-style:normal;color:var(--teal)}.lede{color:#c8d6e3;font-size:1.08rem;max-width:720px}.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn{appearance:none;border:1px solid #50637a;background:#1c3042;color:var(--text);border-radius:10px;padding:11px 15px;font:700 .91rem system-ui,sans-serif;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px}.btn:hover{background:#29425b;border-color:#92a7bb}.btn.primary{background:var(--gold);border-color:var(--gold);color:#101820}.btn:focus-visible,.filter:focus-visible,.task-button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.intro-card,.panel,.stat,.info{background:linear-gradient(160deg,#172434ee,#111b27ee);border:1px solid var(--line);border-radius:16px}.intro-card{padding:24px}.intro-card h2{font-size:.96rem;margin:0 0 13px;color:var(--gold)}.intro-card p{font-size:.87rem;color:var(--muted);margin:.6em 0}.intro-card strong{color:var(--text)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 22px}.stat{padding:22px 24px}.stat strong{display:block;font-size:1.9rem;letter-spacing:-.045em}.stat span{color:var(--muted);font-size:.82rem}
+.panel{padding:clamp(18px,3vw,32px)}.panel-head{display:flex;align-items:start;justify-content:space-between;gap:24px;flex-wrap:wrap}.panel-head h2{margin:0;font-size:1.5rem}.muted{color:var(--muted)}.panel-head p{margin:.4em 0 0;font-size:.92rem}.badge{display:inline-block;border:1px solid #607b92;padding:6px 12px;border-radius:999px;color:#a9d6ef;font-size:.75rem;letter-spacing:.05em}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:24px 0 18px}.filters{display:flex;flex-wrap:wrap;gap:8px}.filter{border:1px solid #40566a;background:#111c28;color:#cfdeeb;padding:9px 12px;border-radius:9px;cursor:pointer;font:650 .81rem system-ui,sans-serif}.filter[aria-pressed="true"]{background:#284a5e;border-color:var(--teal);color:white}.search{flex:1;min-width:200px;max-width:340px;background:#0c1520;border:1px solid #40566a;border-radius:9px;padding:10px 12px;color:white;font:inherit;font-size:.86rem}.control-break{flex:1}
+.legend{display:flex;flex-wrap:wrap;gap:18px 22px;margin:10px 0 16px;color:var(--muted);font-size:.82rem}.legend span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:7px;vertical-align:middle}.legend .model:before{background:#76aafe}.legend .approval:before{background:#deb263}.legend .implementation:before{background:#54bbaf}.legend .delivery:before{background:#b99bfc}
+.table-scroll{overflow-x:auto;border:1px solid #34465a;border-radius:12px;background:#0e1722}.table-scroll:focus-visible{outline:2px solid var(--gold)}table{width:100%;min-width:1160px;border-collapse:separate;border-spacing:0;table-layout:fixed}col.c-task{width:30%}col.c-dates{width:16%}col.c-chart{width:54%}thead th{padding:14px 14px 16px;background:#213247;color:#d7e7f5;font-size:.76rem;text-align:left;letter-spacing:.05em;position:sticky;top:0}thead th+th,tbody td,tbody th+td{border-left:1px solid #2b3f52}tbody th,tbody td{padding:0 12px;border-top:1px solid #263b4d;text-align:left;height:52px;background:#101a26}tbody tr:nth-child(even) th,tbody tr:nth-child(even) td{background:#152230}tbody tr:focus-within th,tbody tr:focus-within td,tbody tr.selected th,tbody tr.selected td{background:#1b3545}.task-button{display:block;padding:11px 0;width:100%;border:0;background:none;color:var(--text);font:600 .87rem/1.3 system-ui,sans-serif;text-align:left;cursor:pointer}.task-button:hover{text-decoration:underline;text-decoration-color:var(--teal)}.task-index{font:650 .73rem ui-monospace,monospace;color:#82a0b9;margin-right:12px}.dates{font:550 .84rem ui-monospace,monospace;white-space:nowrap;color:#d5e0ea}
+.time-head,.track{position:relative;width:100%;min-width:0}.time-head{height:34px}.tick{position:absolute;top:0;line-height:1.15;color:#b6cbe0;font-size:.7rem;white-space:nowrap;transform:translateX(-20%)}.tick:first-child{transform:none}.tick:last-child{transform:translateX(-55%)}.track{height:30px;background:repeating-linear-gradient(to right,transparent 0,transparent calc(6.25% - 1px),#39516b 6.25%)}.bar{position:absolute;height:19px;top:6px;border-radius:4px;box-shadow:0 0 0 1px #ffffff1a;min-width:4px}.bar.model{background:#76aafe}.bar.approval{background:#deb263}.bar.implementation{background:#54bbaf}.bar.delivery{background:#b99bfc}
+.empty{padding:18px;text-align:center;color:var(--muted)}.detail{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:21px;background:#101b27;border:1px solid #2e465a;border-radius:12px;margin-top:18px}.detail p{margin:.25em 0 0;color:var(--muted);font-size:.88rem}.detail h3{margin:0;font-size:1.03rem}.detail .date-range{font:600 .86rem ui-monospace,monospace;color:#c1e9ee}.note-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}.info{padding:22px}.info h3{font-size:1rem;margin:0 0 7px}.info p{color:var(--muted);font-size:.88rem;margin:0}.foot{padding:18px 0 0;color:#97aaba;font-size:.8rem}.foot a{color:#bedbed}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.stats,.note-list{grid-template-columns:1fr}.site-head{flex-wrap:wrap}.hero{padding-top:43px}.intro-card{max-width:650px}.detail{grid-template-columns:1fr}.control-break{display:none}}
+@media print{*{print-color-adjust:exact;-webkit-print-color-adjust:exact}body{background:#fff;color:#152234}.site-head,.cta,.controls,.detail,.foot{display:none!important}.wrap{max-width:none;padding:0}.hero{padding:10px 0}.hero h1{font-size:35px}.lede,.muted,.info p{color:#203344!important}.intro-card,.stat,.panel,.info{background:#fff!important;color:#152234!important;border-color:#bbc5cd}.stats{grid-template-columns:repeat(3,1fr)}.note-list{grid-template-columns:repeat(3,1fr)}table{min-width:0}thead th,tbody th,tbody td{background:white!important;color:#152234!important}.task-button{color:#152234!important}.table-scroll{overflow:visible}.track{background:repeating-linear-gradient(to right,transparent 0,transparent calc(6.25% - 1px),#dae2e8 6.25%)}@page{size:landscape;margin:12mm}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <a class="brand" href="../../" aria-label="Strategickhaos homepage">
+    <span class="mark" aria-hidden="true">SK</span>
+    <span><strong>Strategickhaos</strong><small>SAGCO research and engineering</small></span>
+  </a>
+  <nav class="head-links" aria-label="Page navigation">
+    <a href="../../">Home</a>
+    <a href="#schedule">Timeline</a>
+    <a href="#methods">Methods</a>
+    <a href="https://lucid.app/lucidchart/f4c7231e-6f78-4b32-979b-8c4c8e9464ad/view" target="_blank" rel="noopener noreferrer">Lucid source</a>
+  </nav>
+</header>
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="title">
+    <div>
+      <p class="eyebrow">SAGCO / Systems Analysis Lab / Web REV001</p>
+      <h1 id="title">DriverPass<br><em>Gantt laboratory.</em></h1>
+      <p class="lede">An inspectable, interactive schedule of the 12 tasks from the DriverPass interview. Every task date is preserved from the supplied source; assumptions stay visible.</p>
+      <div class="cta">
+        <a class="btn primary" href="#schedule">Explore the schedule</a>
+        <a class="btn" href="https://lucid.app/lucidchart/f4c7231e-6f78-4b32-979b-8c4c8e9464ad/view" target="_blank" rel="noopener noreferrer" title="Lucid access may require permission">View editable Lucidchart ↗</a>
+      </div>
+    </div>
+    <aside class="intro-card" aria-label="Project provenance">
+      <h2>PROVENANCE / FACT BOARD</h2>
+      <p><strong>FACT:</strong> Task names and start/end dates come from the interview's Schedule Planning table (pages 5–6).</p>
+      <p><strong>INTERPRETATION:</strong> Color-coded workstreams are visual categories assigned for readability, not labels from the original schedule.</p>
+      <p><strong>UNKNOWN:</strong> The schedule specifies no calendar year or detailed task dependencies.</p>
+      <p><strong>SOURCE ARTIFACT:</strong> Lucidchart SAGCO REV004.</p>
+    </aside>
+  </section>
+
+  <section class="stats" aria-label="Schedule summary">
+    <div class="stat"><strong>12</strong><span>Source-listed project tasks</span></div>
+    <div class="stat"><strong>Jan 22 → May 10</strong><span>Date range, year unspecified</span></div>
+    <div class="stat"><strong>REV004</strong><span>Editable Lucidchart diagram</span></div>
+  </section>
+
+  <section class="panel" id="schedule" aria-labelledby="schedule-title">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Source-aligned project planning</p>
+        <h2 id="schedule-title">Schedule timeline</h2>
+        <p class="muted">Select a task to inspect its original date range. Filter or search without changing the source data.</p>
+      </div>
+      <span class="badge">READ-ONLY / ANALYTICAL VIEW</span>
+    </div>
+    <div class="controls">
+      <div class="filters" id="filters" role="group" aria-label="Filter tasks by analytical workstream">
+        <button type="button" class="filter" data-filter="all" aria-pressed="true">All tasks</button>
+        <button type="button" class="filter" data-filter="model" aria-pressed="false">Requirements &amp; models</button>
+        <button type="button" class="filter" data-filter="approval" aria-pressed="false">Approvals</button>
+        <button type="button" class="filter" data-filter="implementation" aria-pressed="false">Implementation</button>
+        <button type="button" class="filter" data-filter="delivery" aria-pressed="false">Testing &amp; delivery</button>
+      </div>
+      <span class="control-break"></span>
+      <label for="search" class="muted" style="font-size:.82rem">Search</label>
+      <input class="search" id="search" type="search" placeholder="Find a task…" autocomplete="off">
+      <button class="btn" id="download" type="button">Export CSV</button>
+      <button class="btn" id="print" type="button">Print view</button>
+    </div>
+    <div class="legend" aria-label="Chart key">
+      <span class="model">Requirements &amp; modeling</span><span class="approval">Approval &amp; sign-off</span><span class="implementation">Implementation</span><span class="delivery">Testing &amp; delivery</span>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Horizontally scrollable Gantt chart">
+      <table>
+        <colgroup><col class="c-task"><col class="c-dates"><col class="c-chart"></colgroup>
+        <thead>
+          <tr><th scope="col">Scheduled task</th><th scope="col">Start – End</th><th scope="col"><div class="time-head" id="ticks" aria-label="Weekly axis from January 22 to May 10"></div></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p id="empty" class="empty" hidden>No tasks match the selected filters.</p>
+    </div>
+    <div class="detail" id="detail" aria-live="polite" aria-atomic="true">
+      <div><h3 id="detail-title">Select a task</h3><p id="detail-desc">Task details come directly from the source table; grouping is an analytical overlay.</p></div>
+      <span class="date-range" id="detail-dates">JAN 22 — MAY 10</span>
+    </div>
+  </section>
+
+  <section class="note-list" id="methods" aria-label="Interpretation and source notes">
+    <article class="info"><h3>01 / Evidence</h3><p>Southern New Hampshire University. (n.d.). <cite>CS 255 DriverPass interview transcript</cite> [Course handout], Schedule Planning, pp. 5–6. This site reproduces only the project task schedule.</p></article>
+    <article class="info"><h3>02 / Modeling choice</h3><p>The Gantt view uses a representative non-leap calendar solely to position bars. No year is attributed to the client. Shared handoff dates and overlapping work are retained.</p></article>
+    <article class="info"><h3>03 / Scope</h3><p>The chart represents a proposed schedule, not completed software, a verified critical path, task ownership, or measured progress. The Lucid document may require account permission to open.</p></article>
+  </section>
+  <p class="foot">Independent SAGCO educational case-study visualization. Not an official SNHU or DriverPass site. <a href="https://github.com/Strategickhaos/strategickhaos.github.io/tree/main/projects/driverpass-gantt">Inspect the website source on GitHub</a>.</p>
+</main>
+<script>
+'use strict';
+const TASKS = [
+  {id:'T01',name:'Collect Requirements',start:'01-22',end:'02-04',phase:'model'},
+  {id:'T02',name:'Create Use Case Diagrams',start:'02-11',end:'02-18',phase:'model'},
+  {id:'T03',name:'Build Activity Diagrams for Each Use Case',start:'02-15',end:'03-09',phase:'model'},
+  {id:'T04',name:'Research User Interface Designs',start:'02-27',end:'03-07',phase:'model'},
+  {id:'T05',name:'Build Class Diagram',start:'03-01',end:'03-09',phase:'model'},
+  {id:'T06',name:'Get Customer Approval',start:'03-10',end:'03-11',phase:'approval'},
+  {id:'T07',name:'Build Interface',start:'03-12',end:'03-24',phase:'implementation'},
+  {id:'T08',name:'Link DB to Interface',start:'03-24',end:'04-03',phase:'implementation'},
+  {id:'T09',name:'Build Business Logic',start:'04-05',end:'04-27',phase:'implementation'},
+  {id:'T10',name:'Test System',start:'04-27',end:'05-07',phase:'delivery'},
+  {id:'T11',name:'Deliver System',start:'05-08',end:'05-09',phase:'delivery'},
+  {id:'T12',name:'Sign-off Meeting',start:'05-09',end:'05-10',phase:'approval'}
+];
+const PHASES={model:'Requirements & modeling',approval:'Approval / sign-off',implementation:'Implementation',delivery:'Testing & delivery'};
+const BASE=Date.UTC(2025,0,22),DAY=86400000,SPAN=112;
+function utc(date){const bits=date.split('-').map(Number);return Date.UTC(2025,bits[0]-1,bits[1]);}
+function offset(date){return (utc(date)-BASE)/DAY;}
+function pretty(date){return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',timeZone:'UTC'}).format(new Date(utc(date)));}
+function csvCell(v){return '"'+String(v).replaceAll('"','""')+'"';}
+let active='all',selected=null;
+const rows=document.querySelector('#rows'), search=document.querySelector('#search'),empty=document.querySelector('#empty');
+for(let i=0;i<16;i++){const date=new Date(BASE+i*7*DAY);const tick=document.createElement('span');tick.className='tick';tick.style.left=(i/16*100)+'%';tick.textContent=new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',timeZone:'UTC'}).format(date);document.querySelector('#ticks').append(tick);}
+function updateDetails(t){
+ selected=t.id;
+ document.querySelector('#detail-title').textContent=t.id+' / '+t.name;
+ document.querySelector('#detail-desc').textContent='Analytical workstream: '+PHASES[t.phase]+'. Source lists the task and dates, but does not establish dependencies or completion status.';
+ document.querySelector('#detail-dates').textContent=pretty(t.start).toUpperCase()+' — '+pretty(t.end).toUpperCase();
+ for(const tr of rows.querySelectorAll('tr'))tr.classList.toggle('selected',tr.dataset.id===selected);
+}
+function render(){
+ const match=TASKS.filter(t=>(active==='all'||t.phase===active)&&t.name.toLowerCase().includes(search.value.trim().toLowerCase()));
+ rows.replaceChildren();empty.hidden=match.length!==0;
+ for(const t of match){
+   const tr=document.createElement('tr');tr.dataset.id=t.id;if(selected===t.id)tr.classList.add('selected');
+   const th=document.createElement('th');th.scope='row';
+   const btn=document.createElement('button');btn.type='button';btn.className='task-button';btn.setAttribute('aria-label',t.name+', '+pretty(t.start)+' to '+pretty(t.end)+'. Show details.');
+   const num=document.createElement('span');num.className='task-index';num.textContent=t.id;
+   btn.append(num,document.createTextNode(t.name));btn.addEventListener('click',()=>updateDetails(t));th.append(btn);
+   const dates=document.createElement('td');dates.className='dates';dates.textContent=pretty(t.start)+' – '+pretty(t.end);
+   const td=document.createElement('td');td.setAttribute('aria-label',pretty(t.start)+' through '+pretty(t.end));
+   const track=document.createElement('div');track.className='track';track.setAttribute('aria-hidden','true');
+   const bar=document.createElement('div');bar.className='bar '+t.phase;bar.style.left=(offset(t.start)/SPAN*100)+'%';bar.style.width=(Math.max(1,offset(t.end)-offset(t.start)+1)/SPAN*100)+'%';track.append(bar);td.append(track);tr.append(th,dates,td);rows.append(tr);
+ }
+}
+for(const filter of document.querySelectorAll('.filter'))filter.addEventListener('click',()=>{
+ active=filter.dataset.filter;for(const b of document.querySelectorAll('.filter'))b.setAttribute('aria-pressed',String(b===filter));render();
+});
+search.addEventListener('input',render);
+document.querySelector('#download').addEventListener('click',()=>{
+ const header=['task_id','task','start_month_day','end_month_day','analytical_workstream','source'];
+ const data=TASKS.map(t=>[t.id,t.name,t.start,t.end,PHASES[t.phase],'SNHU CS 255 DriverPass interview transcript pp. 5-6']);
+ const csv=[header,...data].map(row=>row.map(csvCell).join(',')).join('\r\n');
+ const file=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(file),a=document.createElement('a');
+ a.href=url;a.download='DriverPass_Gantt_SAGCO_WEB_REV001.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+document.querySelector('#print').addEventListener('click',()=>window.print());
+render();
+</script>
+</body>
+</html>
